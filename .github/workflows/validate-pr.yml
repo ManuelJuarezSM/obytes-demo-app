@@ -8,6 +8,7 @@ on:
 
 jobs:
   compile:
+    environment: staging
     name: Compile TS (tsc)
     runs-on: ubuntu-latest
     steps:
@@ -56,6 +57,7 @@ jobs:
 
 
   lint:
+    environment: staging
     name: Lint TS (eslint, prettier)
     runs-on: ubuntu-latest
 
@@ -102,6 +104,7 @@ jobs:
           eslint_flags: '. --ext .js,.jsx,.ts,.tsx'
 
   test:
+    environment: staging
     name: Tests (jest)
     runs-on: ubuntu-latest
 

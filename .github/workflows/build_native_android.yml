@@ -6,9 +6,9 @@ on:
       - main
 jobs:
   build:
+    environment: staging
     name: Install and build
     runs-on: ubuntu-latest
-    environment: staging
     steps:
 
       - uses: actions/checkout@v3
