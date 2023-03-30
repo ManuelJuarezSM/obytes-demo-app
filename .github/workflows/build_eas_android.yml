@@ -22,6 +22,9 @@ jobs:
           printenv | grep "RN" >> .env.${{ secrets.ENVIRONMENT }}
           export $(cat .env.${{ secrets.ENVIRONMENT }} | xargs)
           echo $(cat .env.${{ secrets.ENVIRONMENT }})
+        env:
+          RN_API_URL: ${{ secrets.RN_API_URL }}
+          RN_EAS_PROJECT_ID: ${{ secrets.RN_EAS_PROJECT_ID }}
       
       - name: Install dependencies
         env:
