@@ -51,4 +51,6 @@ jobs:
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Building Android Artifact
+        env:
+          APP_ENV: ${{ secrets.ENVIRONMENT }}
         run: eas build -p android --profile staging --local --non-interactive --output android/app/build/outputs/apk/release/app.apk

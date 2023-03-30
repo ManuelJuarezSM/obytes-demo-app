@@ -45,6 +45,8 @@ jobs:
         run: yarn install --immutable
 
       - name: Running expo prebuild
+        env:
+          APP_ENV: ${{ secrets.ENVIRONMENT }}
         run: yarn prebuild -p android
 
       - name: Make Gradlew Executable
