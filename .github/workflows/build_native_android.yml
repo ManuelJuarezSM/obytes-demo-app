@@ -25,7 +25,11 @@ jobs:
           echo $(cat .env.${{ secrets.ENVIRONMENT }})
           
       - name: Install dependencies
-        run: yarn
+        env:
+          APP_ENV: ${{ secrets.ENVIRONMENT }}
+        run: |
+          echo .env.${{ secrets.ENVIRONMENT }}
+          yarn
 
       # - name: Running expo prebuild
       #   run: yarn prebuild -p android
