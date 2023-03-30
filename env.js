@@ -14,7 +14,7 @@ const packageJSON = require('./package.json');
 const BUNDLE_ID = 'com.expoapp'; // ios bundle id
 const PACKAGE = 'com.expoapp'; // android package name
 const NAME = 'ExpoApp'; // app name
-const APP_ENV = process.env.RN_APP_ENV ?? 'development';
+const APP_ENV = process.env.APP_ENV ?? 'development';
 
 /**
  * Add a suffix to variable env based on APP_ENV
