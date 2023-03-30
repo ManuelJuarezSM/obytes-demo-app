@@ -17,14 +17,15 @@ jobs:
           node-version: 16.x
           cache: npm
 
-      - name: Install dependencies
-        run: yarn
-
+          
       - name: Generate and load .env file
         run: |
           pritnenv | grep "RN" > .env.${{ secrets.ENVIRONMENT }}
           export (cat .env.${{ secrets.ENVIRONMENT }} | xargs)
           cat .env.${{ secrets.ENVIRONMENT }}
+          
+      - name: Install dependencies
+        run: yarn
 
       # - name: Running expo prebuild
       #   run: yarn prebuild -p android
