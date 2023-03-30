@@ -1,7 +1,7 @@
 import type { ConfigContext, ExpoConfig } from '@expo/config';
 const path = require('path');
 
-const APP_ENV = process.env.APP_ENV ?? 'development';
+const APP_ENV = process.env.RN_APP_ENV ?? 'development';
 const envPath = path.resolve(__dirname, `.env.${APP_ENV}`);
 
 require('dotenv').config({

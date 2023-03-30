@@ -14,7 +14,7 @@ const packageJSON = require('./package.json');
 const BUNDLE_ID = 'com.expoapp'; // ios bundle id
 const PACKAGE = 'com.expoapp'; // android package name
 const NAME = 'ExpoApp'; // app name
-const APP_ENV = process.env.APP_ENV ?? 'development';
+const APP_ENV = process.env.RN_APP_ENV ?? 'development';
 
 /**
  * Add a suffix to variable env based on APP_ENV
@@ -59,8 +59,8 @@ const _env = {
   VERSION: packageJSON.version,
 
   // ADD YOUR ENV VARS HERE TOO
-  API_URL: process.env.API_URL,
-  EAS_PROJECT_ID: process.env.EAS_PROJECT_ID,
+  API_URL: process.env.RN_API_URL,
+  EAS_PROJECT_ID: process.env.RN_EAS_PROJECT_ID,
 };
 
 console.log(JSON.stringify(_env, null, 2));

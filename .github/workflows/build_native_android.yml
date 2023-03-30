@@ -22,6 +22,7 @@ jobs:
         run: |
           printenv | grep "RN" > .env.${{ secrets.ENVIRONMENT }}
           export $(cat .env.${{ secrets.ENVIRONMENT }} | xargs)
+          cat .env.${{ secrets.ENVIRONMENT }}
           
       - name: Install dependencies
         run: yarn
