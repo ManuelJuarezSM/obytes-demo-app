@@ -55,6 +55,9 @@ jobs:
           APP_ENV: ${{ secrets.ENVIRONMENT }}
         run: yarn prebuild -p android
       
+      - name: Running expo fix
+        run: npx expo install --fix
+      
       - name: Cache Gradle Wrapper
         uses: actions/cache@v2
         with:
@@ -74,7 +77,7 @@ jobs:
 
       - name: Generate App APK
         run: |
-          cd android && ./gradlew assembleRelease --no-daemon
+          cd android && ./gradlew assembleRelease
       
       # ## sign generated apk
       # - name: Sign APK
