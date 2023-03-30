@@ -22,10 +22,10 @@ jobs:
         run: |
           printenv | grep "RN" > .env.${{ secrets.ENVIRONMENT }}
           export $(cat .env.${{ secrets.ENVIRONMENT }} | xargs)
-          cat .env.${{ secrets.ENVIRONMENT }}
+          echo $(cat .env.${{ secrets.ENVIRONMENT }})
           
       - name: Install dependencies
-        run: yarn
+        run: APP_ENV=${{ secrets.ENVIRONMENT }} yarn
 
       # - name: Running expo prebuild
       #   run: yarn prebuild -p android
