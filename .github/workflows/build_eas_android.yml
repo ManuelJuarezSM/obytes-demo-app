@@ -1,0 +1,38 @@
+name: Android EAS Build
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    environment: staging
+    name: Install and build
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: npm
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Generate and load .env file
+        run: |
+          pritnenv | grep "RN" > .env.${{ secrets.ENVIRONMENT }}
+          export (cat .env.${{ secrets.ENVIRONMENT }} | xargs)
+          cat .env.${{ secrets.ENVIRONMENT }}
+
+      # - name: Setup Expo and EAS
+      #   uses: expo/expo-github-action@v8
+      #   with:
+      #     eas-version: latest
+      #     token: ${{ secrets.EXPO_TOKEN }}
+
+      # # VERSIONING
+
+      # - name: Building Android Artifact
+      #   run: eas build -p android --profile staging --local --non-interactive --output android/app/build/outputs/apk/release/app.apk

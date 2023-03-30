@@ -1,0 +1,48 @@
+name: Android Native Build
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    name: Install and build
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: npm
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Generate and load .env file
+        run: |
+          pritnenv | grep "RN" > .env.${{ secrets.ENVIRONMENT }}
+          export (cat .env.${{ secrets.ENVIRONMENT }} | xargs)
+          cat .env.${{ secrets.ENVIRONMENT }}
+
+      # - name: Running expo prebuild
+      #   run: yarn prebuild -p android
+
+      # - name: Make Gradlew Executable
+      #   run: cd android && chmod +x ./gradlew
+
+      # - name: Generate App APK
+      #   run: |
+      #     cd android && ./gradlew assembleRelease --no-daemon
+      
+      # ## sign generated apk
+      # - name: Sign APK
+      #   id: sign_app
+      #   uses: r0adkll/sign-android-release@v1
+      #   with:
+      #     releaseDirectory: android/app/build/outputs/apk/release/
+      #     signingKeyBase64: ${{ secrets.ANDROID_SIGNING_KEY }}
+      #     alias: ${{ secrets.ANDROID_ALIAS }}
+      #     keyStorePassword: ${{ secrets.ANDROID_KEY_STORE_PASSWORD }}
+      #     keyPassword: ${{ secrets.ANDROID_KEY_PASSWORD }}
