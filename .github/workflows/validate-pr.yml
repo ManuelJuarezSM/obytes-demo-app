@@ -17,6 +17,15 @@ jobs:
         with:
           node-version: 18
           cache: 'yarn'
+      
+      - name: Generate and load .env file
+        run: |
+          printenv | grep "RN" >> .env.${{ secrets.ENVIRONMENT }}
+          export $(cat .env.${{ secrets.ENVIRONMENT }} | xargs)
+          echo $(cat .env.${{ secrets.ENVIRONMENT }})
+        env:
+          RN_API_URL: ${{ secrets.RN_API_URL }}
+          RN_EAS_PROJECT_ID: ${{ secrets.RN_EAS_PROJECT_ID }}
 
       - name: 📦 Install Reviewdog
         uses: reviewdog/action-setup@v1
@@ -35,6 +44,8 @@ jobs:
             ${{ runner.os }}-yarn-
 
       - name: 📦 Install Project Dependencies
+        env:
+          APP_ENV: ${{ secrets.ENVIRONMENT }}
         run: yarn install --immutable
 
       - name: 🏃‍♂️ Run TypeScript # Reviewdog tsc errorformat: %f:%l:%c - error TS%n: %m
@@ -55,7 +66,16 @@ jobs:
         with:
           node-version: 18
           cache: 'yarn'
-
+      
+      - name: Generate and load .env file
+        run: |
+          printenv | grep "RN" >> .env.${{ secrets.ENVIRONMENT }}
+          export $(cat .env.${{ secrets.ENVIRONMENT }} | xargs)
+          echo $(cat .env.${{ secrets.ENVIRONMENT }})
+        env:
+          RN_API_URL: ${{ secrets.RN_API_URL }}
+          RN_EAS_PROJECT_ID: ${{ secrets.RN_EAS_PROJECT_ID }}
+  
       - name: 📦 Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
@@ -70,6 +90,8 @@ jobs:
             ${{ runner.os }}-yarn-
 
       - name: 📦 Install Project Dependencies
+        env:
+          APP_ENV: ${{ secrets.ENVIRONMENT }}
         run: yarn install --immutable
 
       - name: 🏃‍♂️ Run ESLint
@@ -90,6 +112,15 @@ jobs:
         with:
           node-version: 18
           cache: 'yarn'
+      
+      - name: Generate and load .env file
+        run: |
+          printenv | grep "RN" >> .env.${{ secrets.ENVIRONMENT }}
+          export $(cat .env.${{ secrets.ENVIRONMENT }} | xargs)
+          echo $(cat .env.${{ secrets.ENVIRONMENT }})
+        env:
+          RN_API_URL: ${{ secrets.RN_API_URL }}
+          RN_EAS_PROJECT_ID: ${{ secrets.RN_EAS_PROJECT_ID }}  
 
       - name: 📦 Get yarn cache directory path
         id: yarn-cache-dir-path
@@ -105,6 +136,8 @@ jobs:
             ${{ runner.os }}-yarn-
 
       - name: 📦 Install Project Dependencies
+        env:
+          APP_ENV: ${{ secrets.ENVIRONMENT }}
         run: yarn install --immutable
 
       - name: 🏃‍♂️ Run Tests

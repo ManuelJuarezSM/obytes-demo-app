@@ -15,7 +15,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16.x
-          cache: npm
+          cache: yarn
 
       - name: Generate and load .env file
         run: |
@@ -26,20 +26,29 @@ jobs:
           RN_API_URL: ${{ secrets.RN_API_URL }}
           RN_EAS_PROJECT_ID: ${{ secrets.RN_EAS_PROJECT_ID }}
       
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+  
+      - name: Restore Project Dependencies (node_modules)
+        uses: actions/cache@v3
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      
       - name: Install dependencies
         env:
           APP_ENV: ${{ secrets.ENVIRONMENT }}
-        run: |
-          echo .env.${{ secrets.ENVIRONMENT }}
-          yarn
+        run: yarn install --immutable  
 
-      # - name: Setup Expo and EAS
-      #   uses: expo/expo-github-action@v8
-      #   with:
-      #     eas-version: latest
-      #     token: ${{ secrets.EXPO_TOKEN }}
+      - name: Setup Expo and EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
 
-      # # VERSIONING
-
-      # - name: Building Android Artifact
-      #   run: eas build -p android --profile staging --local --non-interactive --output android/app/build/outputs/apk/release/app.apk
+      - name: Building Android Artifact
+        run: eas build -p android --profile staging --local --non-interactive --output android/app/build/outputs/apk/release/app.apk

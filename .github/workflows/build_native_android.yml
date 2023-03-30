@@ -15,9 +15,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16.x
-          cache: npm
-
-          
+          cache: yarn
+   
       - name: Generate and load .env file
         run: |
           printenv | grep "RN" >> .env.${{ secrets.ENVIRONMENT }}
@@ -26,23 +25,34 @@ jobs:
         env:
           RN_API_URL: ${{ secrets.RN_API_URL }}
           RN_EAS_PROJECT_ID: ${{ secrets.RN_EAS_PROJECT_ID }}
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+  
+      - name: Restore Project Dependencies (node_modules)
+        uses: actions/cache@v3
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
           
       - name: Install dependencies
         env:
           APP_ENV: ${{ secrets.ENVIRONMENT }}
+        run: yarn install --immutable
+
+      - name: Running expo prebuild
+        run: yarn prebuild -p android
+
+      - name: Make Gradlew Executable
+        run: cd android && chmod +x ./gradlew
+
+      - name: Generate App APK
         run: |
-          echo .env.${{ secrets.ENVIRONMENT }}
-          yarn
-
-      # - name: Running expo prebuild
-      #   run: yarn prebuild -p android
-
-      # - name: Make Gradlew Executable
-      #   run: cd android && chmod +x ./gradlew
-
-      # - name: Generate App APK
-      #   run: |
-      #     cd android && ./gradlew assembleRelease --no-daemon
+          cd android && ./gradlew assembleRelease --no-daemon
       
       # ## sign generated apk
       # - name: Sign APK
