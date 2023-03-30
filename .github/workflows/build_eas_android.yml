@@ -24,7 +24,7 @@ jobs:
           echo $(cat .env.${{ secrets.ENVIRONMENT }})
       
       - name: Install dependencies
-        run: APP_ENV=${{ secrets.ENVIRONMENT }} yarn
+        run: yarn
 
       # - name: Setup Expo and EAS
       #   uses: expo/expo-github-action@v8
