@@ -19,7 +19,7 @@ jobs:
 
       - name: Generate and load .env file
         run: |
-          printenv | grep "RN" > .env.${{ secrets.ENVIRONMENT }}
+          printenv | grep "RN" >> .env.${{ secrets.ENVIRONMENT }}
           export $(cat .env.${{ secrets.ENVIRONMENT }} | xargs)
           echo $(cat .env.${{ secrets.ENVIRONMENT }})
       
