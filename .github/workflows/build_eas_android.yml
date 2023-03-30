@@ -21,10 +21,12 @@ jobs:
         run: |
           printenv | grep "RN" > .env.${{ secrets.ENVIRONMENT }}
           export $(cat .env.${{ secrets.ENVIRONMENT }} | xargs)
-          echo $(cat .env.${{ secrets.ENVIRONMENT }})
+          echo "envFile=$(cat .env.${{ secrets.ENVIRONMENT }})" >> $GITHUB_OUTPUT
       
       - name: Install dependencies
-        run: APP_ENV=${{ secrets.ENVIRONMENT }} yarn
+        run: |
+          echo "printenv=$(printenv)" >> $GITHUB_OUTPUT
+          APP_ENV=${{ secrets.ENVIRONMENT }} yarn
 
       # - name: Setup Expo and EAS
       #   uses: expo/expo-github-action@v8
