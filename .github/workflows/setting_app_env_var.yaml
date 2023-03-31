@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set APP_ENV
+        id: set_app_env
         run: |
           if [[ ${{ github.ref }} == refs/heads/main ]]; then
             echo "APP_ENV=production" >> $GITHUB_ENV
@@ -21,6 +22,7 @@ jobs:
           else
             echo "APP_ENV=development" >> $GITHUB_ENV
           fi
+          echo "{APP_ENV}=${{ env.APP_ENV }}" >> $GITHUB_OUTPUT
 
       - name: Show APP_ENV
         run: echo $APP_ENV
@@ -35,4 +37,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Show APP_ENV persist globally for different jobs
-        run: echo ${{ env.APP_ENV }}
+        run: echo ${{ steps.set_app_env.outputs.APP_ENV }}
