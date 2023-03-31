@@ -38,4 +38,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Show APP_ENV persist globally for different jobs
-        run: echo ${{ steps.set_app_env.outputs.APP_ENV }}
+        run: echo ${{ needs.set_app_env.outputs.APP_ENV }}
