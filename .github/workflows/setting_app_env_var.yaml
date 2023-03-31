@@ -27,3 +27,12 @@ jobs:
 
       - name: Show GITHUB_ENV
         run: cat $GITHUB_ENV
+      
+      - name: Show APP_ENV from env
+        run: echo ${{ env.APP_ENV }}
+  
+  fake_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show APP_ENV persist globally for different jobs
+        run: echo ${{ env.APP_ENV }}
