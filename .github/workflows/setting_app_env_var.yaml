@@ -9,6 +9,8 @@ on:
 jobs:
   set_app_env:
     runs-on: ubuntu-latest
+    outputs:
+      app_env: ${{ env.APP_ENV }}
     steps:
       - name: Set APP_ENV
         id: set_app_env
@@ -38,4 +40,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Show APP_ENV persist globally for different jobs
-        run: echo ${{ needs.set_app_env.outputs.APP_ENV }}
+        run: echo ${{ needs.set_app_env.outputs.app_env }}
