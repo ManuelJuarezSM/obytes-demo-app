@@ -1,0 +1,29 @@
+name: Setting APP_ENV var globally
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - dev
+      - main
+
+jobs:
+  set_app_env:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set APP_ENV
+        run: |
+          if [[ ${{ github.ref }} == refs/heads/main ]]; then
+            echo "APP_ENV=production" >> $GITHUB_ENV
+          elif [[ ${{ github.ref }} == refs/heads/dev ]]; then
+            echo "APP_ENV=development" >> $GITHUB_ENV
+          elif [[ ${{ github.ref }} == refs/heads/staging ]]; then
+            echo "APP_ENV=staging" >> $GITHUB_ENV
+          else
+            echo "APP_ENV=development" >> $GITHUB_ENV
+          fi
+
+      - name: Show APP_ENV
+        run: echo $APP_ENV
+
+      - name: Show GITHUB_ENV
+        run: cat $GITHUB_ENV
