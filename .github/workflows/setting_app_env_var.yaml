@@ -34,6 +34,7 @@ jobs:
         run: echo ${{ env.APP_ENV }}
   
   fake_deploy:
+    needs: set_app_env
     runs-on: ubuntu-latest
     steps:
       - name: Show APP_ENV persist globally for different jobs
