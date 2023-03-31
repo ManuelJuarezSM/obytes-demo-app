@@ -22,7 +22,7 @@ jobs:
           else
             echo "APP_ENV=development" >> $GITHUB_ENV
           fi
-          echo "APP_ENV=${{ env.APP_ENV }}" >> $GITHUB_OUTPUT
+          echo "APP_ENV=$APP_ENV" >> $GITHUB_OUTPUT
 
       - name: Show APP_ENV
         run: echo $APP_ENV
